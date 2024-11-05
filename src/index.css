@@ -1,0 +1,34 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --primary: #006495;
+    --primary-container: #cde5ff;
+    --on-primary: #ffffff;
+    --on-primary-container: #001e31;
+    --surface: #fdfcff;
+    --surface-variant: #dfe2eb;
+    --on-surface: #1a1c1e;
+    --on-surface-variant: #43474e;
+  }
+
+  body {
+    @apply bg-gray-50 text-gray-900;
+  }
+}
+
+@layer components {
+  .aspect-w-1 { padding-bottom: 100%; }
+  .aspect-w-4 { padding-bottom: 75%; }
+  .aspect-w-16 { padding-bottom: 56.25%; }
+  
+  [class^="aspect-"] {
+    @apply relative;
+  }
+  
+  [class^="aspect-"] > * {
+    @apply absolute inset-0 w-full h-full;
+  }
+}
