@@ -67,11 +67,10 @@ export default function ProductDetail() {
               <button
                 key={index}
                 onClick={() => setSelectedImage(index)}
-                className={`relative rounded-lg overflow-hidden ${
-                  selectedImage === index
+                className={`relative rounded-lg overflow-hidden ${selectedImage === index
                     ? 'ring-2 ring-primary'
                     : 'ring-1 ring-gray-200'
-                }`}
+                  }`}
               >
                 <img
                   src={image}

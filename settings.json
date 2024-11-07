@@ -1,0 +1,10 @@
+{
+    "json.schemas": [
+        {
+            "fileMatch": ["package.json"],
+            "url": "./schemas/package-schema.json"
+        }
+    ],
+    "json.validate.enable": false,
+    "json.schemaDownload.enable": false
+} 

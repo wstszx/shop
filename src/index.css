@@ -2,33 +2,38 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
-  :root {
-    --primary: #006495;
-    --primary-container: #cde5ff;
-    --on-primary: #ffffff;
-    --on-primary-container: #001e31;
-    --surface: #fdfcff;
-    --surface-variant: #dfe2eb;
-    --on-surface: #1a1c1e;
-    --on-surface-variant: #43474e;
-  }
-
-  body {
-    @apply bg-gray-50 text-gray-900;
-  }
+@keyframes breathe {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+  100% { transform: scale(1); }
 }
 
-@layer components {
-  .aspect-w-1 { padding-bottom: 100%; }
-  .aspect-w-4 { padding-bottom: 75%; }
-  .aspect-w-16 { padding-bottom: 56.25%; }
-  
-  [class^="aspect-"] {
-    @apply relative;
-  }
-  
-  [class^="aspect-"] > * {
-    @apply absolute inset-0 w-full h-full;
-  }
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
+
+@keyframes ripple {
+  0% { transform: scale(0); opacity: 0.6; }
+  100% { transform: scale(2); opacity: 0; }
+}
+
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+:root {
+  --primary-color: #006A6A;
+  --primary-light: #4F9798;
+  --primary-dark: #004F4F;
+  --on-primary: #FFFFFF;
+  --surface: #FAFDFC;
+  --surface-variant: #DAE5E4;
+  --outline: #6F7978;
+  --radius: 24px;
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 其他自定义样式... */

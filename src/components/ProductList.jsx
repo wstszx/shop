@@ -1,75 +1,84 @@
 import React, { useState } from 'react';
-import QRCode from 'qrcode.react';
-import ProductCard from './ProductCard';
+import './ProductShowcase.css';
 
-export default function ProductList() {
-  const [products] = useState([
-    {
-      id: 1,
-      name: '高级蓝牙耳机',
-      description: '无线降噪，持久续航',
-      price: '¥999',
-      image: 'https://via.placeholder.com/400',
-      inStock: true,
-      freeShipping: true
-    },
-    {
-      id: 2,
-      name: '智能手表',
-      description: '全天候健康监测',
-      price: '¥1299',
-      image: 'https://via.placeholder.com/400',
-      inStock: true,
-      freeShipping: true
-    },
-    {
-      id: 3,
-      name: '便携式充电宝',
-      description: '大容量快充',
-      price: '¥199',
-      image: 'https://via.placeholder.com/400',
-      inStock: false,
-      freeShipping: true
-    },
-    {
-      id: 4,
-      name: '无线充电器',
-      description: '15W快速充电',
-      price: '¥129',
-      image: 'https://via.placeholder.com/400',
-      inStock: true,
-      freeShipping: false
-    }
-  ]);
+const Header = () => (
+  <header className="header">
+    <h1>产品展示</h1>
+  </header>
+);
+
+const ProductCard = ({ name, price, image, onClick }) => (
+  <div className="product-card" onClick={onClick}>
+    <div className="product-image">
+      <img src={image} alt={`${name}图片`} />
+    </div>
+    <div className="product-info">
+      <h3 className="product-title">{name}</h3>
+      <p className="product-price">¥{price}</p>
+    </div>
+  </div>
+);
+
+const Footer = () => (
+  <footer className="footer">
+    <div className="qr-code">
+      <img src="/api/placeholder/160/160" alt="二维码" />
+    </div>
+    <p>扫描二维码关注我们</p>
+  </footer>
+);
+
+const ProductDetail = ({ product, onClose }) => (
+  <>
+    <div className="modal-overlay" onClick={onClose} />
+    <div className="product-detail">
+      <button className="close-button" onClick={onClose}>&times;</button>
+      <div className="detail-image">
+        <img src="/api/placeholder/800/400" alt={`${product.name}详情图片`} />
+      </div>
+      <h2>{product.name}</h2>
+      <div className="detail-description">
+        <p>这里是产品的详细描述信息。可以包含产品的特点、规格、使用方法等内容。</p>
+      </div>
+      <video className="detail-video" controls>
+        <source src="product-video.mp4" type="video/mp4" />
+        您的浏览器不支持视频播放。
+      </video>
+    </div>
+  </>
+);
+
+const ProductList = () => {
+  const [selectedProduct, setSelectedProduct] = useState(null);
+
+  const products = [
+    { id: 1, name: '产品名称1', price: 299, image: '/api/placeholder/280/200' },
+    { id: 2, name: '产品名称2', price: 399, image: '/api/placeholder/280/200' },
+    { id: 3, name: '产品名称3', price: 199, image: '/api/placeholder/280/200' },
+  ];
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div className="space-y-12">
-        <div className="text-center">
-          <h1 className="text-4xl font-bold text-gray-900">精选商品</h1>
-          <p className="mt-4 text-xl text-gray-500">发现品质生活，享受科技带来的便利</p>
-        </div>
-
-        <div className="grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
-          {products.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </div>
-      </div>
-
-      <div className="fixed bottom-8 right-8 z-10">
-        <div className="bg-white p-6 rounded-2xl shadow-xl backdrop-blur-sm bg-white/80">
-          <QRCode
-            value="https://your-website-url.com"
-            size={128}
-            level="H"
-            includeMargin={true}
+    <div>
+      <Header />
+      <main className="products-grid">
+        {products.map((product) => (
+          <ProductCard
+            key={product.id}
+            {...product}
+            onClick={() => setSelectedProduct(product)}
           />
-          <p className="mt-3 text-sm font-medium text-gray-900 text-center">
-            扫码关注我们
-          </p>
-        </div>
-      </div>
+        ))}
+      </main>
+
+      {selectedProduct && (
+        <ProductDetail 
+          product={selectedProduct} 
+          onClose={() => setSelectedProduct(null)} 
+        />
+      )}
+      <Footer />
     </div>
   );
-}
+};
+
+export default ProductList;
