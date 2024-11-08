@@ -1,8 +1,14 @@
 {
-  "json.schemas": [
-    {
-      "fileMatch": ["package.json"],
-      "url": "https://json.schemastore.org/package.json"
-    }
-  ]
+  "files.associations": {
+    "*.css": "postcss"
+  },
+  "editor.quickSuggestions": {
+    "strings": true
+  },
+  "tailwindCSS.includeLanguages": {
+    "plaintext": "html",
+    "javascript": "javascript",
+    "css": "css"
+  },
+  "tailwindCSS.experimental.configFile": "tailwind.config.js"
 } 

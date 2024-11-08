@@ -1,142 +1,69 @@
-import React, { useState } from 'react';
-import { useAuth } from '../contexts/AuthContext';
+import React, { useState, useEffect } from 'react';
 
-export default function AdminPanel() {
-  const { isAdmin, login } = useAuth();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [newProduct, setNewProduct] = useState({
-    name: '',
-    description: '',
-    price: '',
-    images: [],
-    video: ''
-  });
+const AdminPanel = () => {
+  const [products, setProducts] = useState([]);
+  const [editingProduct, setEditingProduct] = useState(null);
 
-  if (!isAdmin) {
-    return (
-      <div className="max-w-md mx-auto material-card p-8">
-        <h2 className="text-2xl font-bold text-on-surface mb-8">管理员登录</h2>
-        <form onSubmit={(e) => {
-          e.preventDefault();
-          login({ email, password });
-        }}>
-          <div className="space-y-6">
-            <div>
-              <label className="material-label">邮箱</label>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="material-input"
-                required
-              />
-            </div>
-            <div>
-              <label className="material-label">密码</label>
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="material-input"
-                required
-              />
-            </div>
-            <button
-              type="submit"
-              className="material-button w-full bg-primary text-on-primary"
-            >
-              登录
-            </button>
-          </div>
-        </form>
-      </div>
-    );
-  }
+  // 这里添加获取产品列表的逻辑
+  useEffect(() => {
+    // 从API获取产品列表
+  }, []);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log('New product:', newProduct);
-    setNewProduct({
-      name: '',
-      description: '',
-      price: '',
-      images: [],
-      video: ''
-    });
+  const handleLogout = () => {
+    localStorage.removeItem('isAdmin');
+    window.location.href = '/';
   };
 
   return (
-    <div className="max-w-4xl mx-auto material-card p-8">
-      <h2 className="text-2xl font-bold text-on-surface mb-8">添加新商品</h2>
-      <form onSubmit={handleSubmit} className="space-y-6">
-        <div>
-          <label className="material-label">商品名称</label>
-          <input
-            type="text"
-            value={newProduct.name}
-            onChange={(e) => setNewProduct({...newProduct, name: e.target.value})}
-            className="material-input"
-            required
-          />
-        </div>
-        
-        <div>
-          <label className="material-label">商品描述</label>
-          <textarea
-            value={newProduct.description}
-            onChange={(e) => setNewProduct({...newProduct, description: e.target.value})}
-            className="material-input"
-            rows="4"
-            required
-          />
-        </div>
-        
-        <div>
-          <label className="material-label">价格</label>
-          <input
-            type="number"
-            value={newProduct.price}
-            onChange={(e) => setNewProduct({...newProduct, price: e.target.value})}
-            className="material-input"
-            required
-          />
-        </div>
-        
-        <div>
-          <label className="material-label">图片上传</label>
-          <input
-            type="file"
-            multiple
-            accept="image/*"
-            onChange={(e) => {
-              const files = Array.from(e.target.files);
-              setNewProduct({...newProduct, images: files});
-            }}
-            className="material-input"
-          />
-        </div>
-        
-        <div>
-          <label className="material-label">视频上传</label>
-          <input
-            type="file"
-            accept="video/*"
-            onChange={(e) => {
-              const file = e.target.files[0];
-              setNewProduct({...newProduct, video: file});
-            }}
-            className="material-input"
-          />
-        </div>
-        
+    <div className="container mx-auto p-4">
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-2xl font-bold">产品管理</h1>
         <button
-          type="submit"
-          className="material-button w-full bg-primary-container text-on-primary-container"
+          onClick={handleLogout}
+          className="bg-red-500 text-white px-4 py-2 rounded"
         >
-          添加商品
+          退出登录
         </button>
-      </form>
+      </div>
+
+      <div className="grid gap-4">
+        {/* 产品列表 */}
+        <table className="min-w-full bg-white shadow-md rounded">
+          <thead>
+            <tr>
+              <th className="px-4 py-2">ID</th>
+              <th className="px-4 py-2">名称</th>
+              <th className="px-4 py-2">价格</th>
+              <th className="px-4 py-2">操作</th>
+            </tr>
+          </thead>
+          <tbody>
+            {products.map(product => (
+              <tr key={product.id}>
+                <td className="border px-4 py-2">{product.id}</td>
+                <td className="border px-4 py-2">{product.name}</td>
+                <td className="border px-4 py-2">{product.price}</td>
+                <td className="border px-4 py-2">
+                  <button
+                    onClick={() => setEditingProduct(product)}
+                    className="bg-blue-500 text-white px-2 py-1 rounded mr-2"
+                  >
+                    编辑
+                  </button>
+                  <button
+                    onClick={() => handleDelete(product.id)}
+                    className="bg-red-500 text-white px-2 py-1 rounded"
+                  >
+                    删除
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
-}
+};
+
+export default AdminPanel;
